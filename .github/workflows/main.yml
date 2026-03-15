@@ -3,7 +3,7 @@ name: Telegram Bot Runner
 on:
   push:
     branches:
-      - main  # سيتم التشغيل عند الدفع لهذا الفرع
+      - main 
 
 jobs:
   run-bot:
@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # تحديث لأحدث نسخة مستقرة
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -23,13 +23,11 @@ jobs:
 
       - name: Run Bot session
         env:
-          # هذه القيم يتم جلبها من الـ Secrets التي أضفتها أنت
+          # تأكد من مطابقة هذه الأسماء تماماً لما ستضعه في إعدادات GitHub
           TELEGRAM_TOKEN: ${{ secrets.TELE }}
           GITHUB_TOKEN: ${{ secrets.LINKIT }}
-          CHAT_ID: ${{ secrets.id }}
-          # هذه قيم تلقائية من نظام GitHub نفسه
+          CHAT_ID: ${{ secrets.MY_CHAT_ID }} 
           REPO_NAME: ${{ github.repository }}
           COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
-          # سيتم تشغيل البوت لمدة 5 دقائق (300 ثانية)
-          timeout 300s python bot_script.py || echo "Session timed out as planned."
+          timeout 300s python bot_script.py || echo "Session ended."
